@@ -5,11 +5,13 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class QdrantConfig(BaseModel):
     host: str
     port: int
+    collection_name: str
 
 
 class OpenAIConfig(BaseModel):
     api_key: str
-    model: str
+    qa_model: str
+    embed_model: str
 
 
 class LLAMAConfig(BaseModel):

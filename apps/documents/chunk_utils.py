@@ -14,7 +14,7 @@ CHUNK_OVERLAP = 100
 async def save_temp_file(file: UploadFile) -> str:
     """
     Save uploaded file to a temporary path.
-    It's basically required by LLAMA parser.
+    Required by Llama parser.
     """
     file_bytes = await file.read()
     with tempfile.NamedTemporaryFile(delete=False, suffix=file.filename) as tmp:
@@ -22,12 +22,19 @@ async def save_temp_file(file: UploadFile) -> str:
         return tmp.name
 
 
-def split_into_chunks(docs: JobResult, document_id: str, file_name: str) -> list[Chunk]:
-    """Split parsed document into small text chunks."""
+def split_into_chunks(
+    docs: JobResult,
+    document_id: str,
+    file_name: str,
+    splitter: TokenTextSplitter | None = None,
+) -> list[Chunk]:
+    """
+    Split parsed document into smaller text chunks.
+    """
+    if splitter is None:
+        splitter = TokenTextSplitter(chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OVERLAP)
+
     result_chunks = []
-    splitter = TokenTextSplitter(
-        chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OVERLAP
-    )  # not really dependency inverted, but whatever
 
     for page in docs.pages:
         for item in page.items:
@@ -36,6 +43,8 @@ def split_into_chunks(docs: JobResult, document_id: str, file_name: str) -> list
                 continue
             chunks = splitter.split_text(text)
             for chunk in chunks:
+                if not chunk.strip():
+                    continue
                 result_chunks.append(
                     Chunk(
                         id=uuid4().hex,

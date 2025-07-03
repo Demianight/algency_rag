@@ -3,12 +3,13 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from apps import core_router
+from apps.documents.storage import display_qdrant_info, setup_qdrant_collection
 from settings import settings
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Initialize resources here if needed
+    setup_qdrant_collection("documents")
     yield
     # Cleanup resources here if needed
 

@@ -1,4 +1,20 @@
+from pydantic import BaseModel
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class QdrantConfig(BaseModel):
+    host: str
+    port: int
+
+
+class OpenAIConfig(BaseModel):
+    api_key: str
+    model: str
+
+
+class LLAMAConfig(BaseModel):
+    api_key: str
+    api_url: str
 
 
 class Settings(BaseSettings):
@@ -7,6 +23,9 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
         env_nested_delimiter="__",
     )
+    llama: LLAMAConfig
+    openai: OpenAIConfig
+    qdrant: QdrantConfig
 
     debug: bool = False
 

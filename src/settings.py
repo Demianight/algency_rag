@@ -16,7 +16,6 @@ class OpenAIConfig(BaseModel):
 
 class LLAMAConfig(BaseModel):
     api_key: str
-    api_url: str
 
 
 class Settings(BaseSettings):

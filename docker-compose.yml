@@ -11,5 +11,21 @@ services:
       - qdrant_storage:/qdrant/storage
     restart: unless-stopped
 
+  app:
+    build: .
+    container_name: app
+    ports:
+      - "8000:8000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - DEBUG=False
+      - QDRANT__HOST=qdrant
+    env_file:
+      - .env
+    depends_on:
+      - qdrant
+    restart: unless-stopped
+
 volumes:
   qdrant_storage:

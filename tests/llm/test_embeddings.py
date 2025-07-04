@@ -3,7 +3,7 @@ from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
-from src.llm.embeddings import create_embeddings
+from src.llm.embeddings import push_to_vectorstore
 
 
 @pytest.mark.asyncio
@@ -21,7 +21,7 @@ async def test_create_embeddings_calls_vectorstore_aadd_texts():
     vectorstore = MagicMock()
     vectorstore.aadd_texts = AsyncMock()
 
-    await create_embeddings(chunks, vectorstore)  # type: ignore
+    await push_to_vectorstore(chunks, vectorstore)  # type: ignore
 
     vectorstore.aadd_texts.assert_awaited_once_with(
         texts=["text1", "text2"],

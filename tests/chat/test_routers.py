@@ -17,11 +17,11 @@ def make_llm_response():
         "result": "42",
         "source_documents": [
             {
-                "metadata": {"id": "id1", "document_id": "doc1"},
+                "metadata": {"_id": "id1", "document_id": "doc1"},
                 "page_content": "answer text",
             },
             {
-                "metadata": {"id": "id2", "document_id": "doc2"},
+                "metadata": {"_id": "id2", "document_id": "doc2"},
                 "page_content": "another text",
             },
         ],
@@ -33,11 +33,11 @@ class DummyRetriever(BaseRetriever):
         return [
             Document(
                 page_content="answer text",
-                metadata={"id": "id1", "document_id": "doc1"},
+                metadata={"_id": "id1", "document_id": "doc1"},
             ),
             Document(
                 page_content="another text",
-                metadata={"id": "id2", "document_id": "doc2"},
+                metadata={"_id": "id2", "document_id": "doc2"},
             ),
         ]
 
@@ -75,9 +75,9 @@ def test_ask_endpoint_transforms_llm_response():
     )  # Convert stringified JSON back to dict ONLY for testing
     assert data["result"] == "42"
     assert len(data["source_documents"]) == 2
-    assert data["source_documents"][0]["metadata"]["id"] == "id1"
+    assert data["source_documents"][0]["metadata"]["_id"] == "id1"
     assert data["source_documents"][0]["metadata"]["document_id"] == "doc1"
     assert data["source_documents"][0]["page_content"] == "answer text"
-    assert data["source_documents"][1]["metadata"]["id"] == "id2"
+    assert data["source_documents"][1]["metadata"]["_id"] == "id2"
     assert data["source_documents"][1]["metadata"]["document_id"] == "doc2"
     assert data["source_documents"][1]["page_content"] == "another text"

@@ -10,6 +10,7 @@ class SourceChunk(BaseModel):
     id: str
     document_id: str
     text: str
+    tags: list[str] | None = None
 
 
 class AskResponse(BaseModel):

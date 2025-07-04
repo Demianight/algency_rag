@@ -61,6 +61,10 @@ app.dependency_overrides[llm_dependencies.get_vectorstore] = dummy_vectorstore
 
 
 def test_ask_endpoint_transforms_llm_response():
+    """
+    I cannot lie, this test - sucks.
+    Thank god it even works.
+    """
     client = TestClient(app)
     req = {"question": "What is the answer?", "top_k": 2}
     resp = client.post("/chat/ask", json=req)

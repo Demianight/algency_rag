@@ -1,21 +1,26 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
-from apps.llm.services import ask_gpt
+from src.llm.dependencies import get_llm, get_vectorstore
+from src.llm.services import ask_gpt
 
 from .schemas import AskRequest, AskResponse, SourceChunk
 
-router = APIRouter()
+router = APIRouter(prefix="/chat", tags=["chat"])
 
 
 @router.post(
     "/ask",
     response_model=AskResponse,
 )
-async def ask_question(question: AskRequest):
+async def ask_question(
+    question: AskRequest,
+    llm=Depends(get_llm),
+    vectorstore=Depends(get_vectorstore),
+):
     """
     Endpoint to ask a question.
     """
-    response = ask_gpt(question.question, top_k=question.top_k)
+    response = ask_gpt(question.question, llm, vectorstore, top_k=question.top_k)
     return AskResponse(
         result=response["result"],
         source_documents=[

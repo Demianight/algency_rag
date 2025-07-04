@@ -15,4 +15,7 @@ dependencies = [
     "qdrant-client>=1.14.3",
     "langchain-openai>=0.3.27",
     "langchain-qdrant>=0.2.0",
+    "pytest>=8.4.1",
+    "pytest-asyncio>=1.0.0",
+    "pytest-cov>=6.2.1",
 ]

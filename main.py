@@ -2,8 +2,8 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from apps import core_router
-from settings import settings
+from src import core_router
+from src.settings import settings
 
 
 @asynccontextmanager
